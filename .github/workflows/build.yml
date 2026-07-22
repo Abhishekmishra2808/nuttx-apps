@@ -138,7 +138,7 @@ jobs:
       # Documented sim/login CI test credential (not a production secret).
       # Used when CONFIG_BOARD_ETC_ROMFS_PASSWD_ENABLE=y and defconfig omits
       # the password.  See nuttx tools/update_romfs_password.sh.
-      NUTTX_ROMFS_PASSWD_PASSWORD: NuttXSimLogin1
+      NUTTX_ROMFS_PASSWD_PASSWORD: NuttXSimLogin1!
 
     strategy:
       max-parallel: 12
@@ -183,10 +183,10 @@ jobs:
         uses: ./sources/nuttx/.github/actions/ci-container
         env:
           BLOBDIR: /tools/blobs
-          NUTTX_ROMFS_PASSWD_PASSWORD: NuttXSimLogin1
+          NUTTX_ROMFS_PASSWD_PASSWORD: NuttXSimLogin1!
         with:
           run: |
-            export NUTTX_ROMFS_PASSWD_PASSWORD=NuttXSimLogin1
+            export NUTTX_ROMFS_PASSWD_PASSWORD=NuttXSimLogin1!
             export ARTIFACTDIR=`pwd`/buildartifacts
 
             for i in 1 2 3; do
@@ -302,7 +302,7 @@ jobs:
     needs: macOS-Arch
     if: ${{ needs.macOS-Arch.outputs.skip_all_builds != '1' }}
     env:
-      NUTTX_ROMFS_PASSWD_PASSWORD: NuttXSimLogin1
+      NUTTX_ROMFS_PASSWD_PASSWORD: NuttXSimLogin1!
     strategy:
       max-parallel: 2
       matrix:
@@ -331,13 +331,13 @@ jobs:
 
       # Released version of Cython has issues with Python 11. Set runner to use Python 3.10
       # https://github.com/cython/cython/issues/4500
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.10'
       - name: Run Builds
         run: |
           echo "::add-matcher::sources/nuttx/.github/gcc.json"
-          export NUTTX_ROMFS_PASSWD_PASSWORD=NuttXSimLogin1
+          export NUTTX_ROMFS_PASSWD_PASSWORD=NuttXSimLogin1!
           export ARTIFACTDIR=`pwd`/buildartifacts
           cd sources/nuttx/tools/ci
           ./cibuild.sh -i -c -A -R testlist/${{matrix.boards}}.dat
@@ -449,7 +449,7 @@ jobs:
       - uses: actions/checkout@v7
       # Set up Python environment and install kconfiglib
       - name: Set up Python and install kconfiglib
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: '3.10'
       - name: Install kconfiglib

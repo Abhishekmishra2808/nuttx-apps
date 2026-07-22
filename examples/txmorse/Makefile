@@ -1,5 +1,5 @@
 ############################################################################
-# apps/fsutils/passwd/Makefile
+# apps/examples/txmorse/Makefile
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -22,15 +22,13 @@
 
 include $(APPDIR)/Make.defs
 
-# Password file access library
+# Application info
 
-ifeq ($(CONFIG_FSUTILS_PASSWD),y)
-CSRCS += passwd_verify.c passwd_find.c passwd_encrypt.c
-CSRCS += passwd_pbkdf2.c
-ifneq ($(CONFIG_FSUTILS_PASSWD_READONLY),y)
-CSRCS += passwd_adduser.c passwd_deluser.c passwd_update.c passwd_append.c
-CSRCS += passwd_delete.c passwd_lock.c
-endif
-endif
+PROGNAME  = $(CONFIG_EXAMPLES_TXMORSE_PROGNAME)
+PRIORITY  = $(CONFIG_EXAMPLES_TXMORSE_PRIORITY)
+STACKSIZE = $(CONFIG_EXAMPLES_TXMORSE_STACKSIZE)
+MODULE    = $(CONFIG_EXAMPLES_TXMORSE)
+
+MAINSRC = txmorse_main.c
 
 include $(APPDIR)/Application.mk

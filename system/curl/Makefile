@@ -1,5 +1,5 @@
 ############################################################################
-# apps/fsutils/passwd/Makefile
+# apps/system/curl/Makefile
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -22,15 +22,15 @@
 
 include $(APPDIR)/Make.defs
 
-# Password file access library
+# curl built-in application info
 
-ifeq ($(CONFIG_FSUTILS_PASSWD),y)
-CSRCS += passwd_verify.c passwd_find.c passwd_encrypt.c
-CSRCS += passwd_pbkdf2.c
-ifneq ($(CONFIG_FSUTILS_PASSWD_READONLY),y)
-CSRCS += passwd_adduser.c passwd_deluser.c passwd_update.c passwd_append.c
-CSRCS += passwd_delete.c passwd_lock.c
-endif
-endif
+PROGNAME  = $(CONFIG_SYSTEM_CURL_PROGNAME)
+PRIORITY  = $(CONFIG_SYSTEM_CURL_PRIORITY)
+STACKSIZE = $(CONFIG_SYSTEM_CURL_STACKSIZE)
+MODULE    = $(CONFIG_SYSTEM_CURL)
+
+# curl command
+
+MAINSRC = curl_main.c
 
 include $(APPDIR)/Application.mk

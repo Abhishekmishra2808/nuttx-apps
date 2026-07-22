@@ -10,6 +10,8 @@ menuconfig NETUTILS_DROPBEAR
 	depends on !DISABLE_PSEUDOFS_OPERATIONS
 	depends on !DISABLE_PTHREAD
 	depends on SCHED_WAITPID
+	depends on SCHED_HAVE_PARENT
+	depends on SCHED_CHILD_STATUS
 	depends on NSH_LIBRARY
 	depends on FSUTILS_PASSWD
 	depends on PSEUDOTERM
@@ -17,8 +19,8 @@ menuconfig NETUTILS_DROPBEAR
 	depends on DEV_URANDOM
 	depends on LIBC_NETDB
 	depends on LIBC_GAISTRERROR
-	select CRYPTO
-	select CRYPTO_RANDOM_POOL
+	depends on CRYPTO
+	depends on CRYPTO_RANDOM_POOL
 	---help---
 		Enable a minimal Dropbear SSH server port for NuttX.  This initial
 		port is based on the ESP-IDF MCU test port and provides a single

@@ -1,5 +1,5 @@
 ############################################################################
-# apps/fsutils/passwd/Makefile
+# apps/audioutils/morsey/Makefile
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -22,15 +22,29 @@
 
 include $(APPDIR)/Make.defs
 
-# Password file access library
+CSRCS = $(MORSEY_DIR)/morsey.c
 
-ifeq ($(CONFIG_FSUTILS_PASSWD),y)
-CSRCS += passwd_verify.c passwd_find.c passwd_encrypt.c
-CSRCS += passwd_pbkdf2.c
-ifneq ($(CONFIG_FSUTILS_PASSWD_READONLY),y)
-CSRCS += passwd_adduser.c passwd_deluser.c passwd_update.c passwd_append.c
-CSRCS += passwd_delete.c passwd_lock.c
-endif
-endif
+MORSEY_DIR = morsey
+MORSEY_VERSION = v1.0.0
+MORSEY_MORSEY_H_SHA256 = 55f45e7b9a4d810f928ffe3ee9bea4cc318e28b1f49abf9512aee2638bd1dbfa
+MORSEY_MORSEY_C_SHA256 = f946c9845a90a4c1a459490906ae071d0ac5b41326b7a5ce971efb97792ef56a
+
+$(MORSEY_DIR):
+	$(Q) echo "Cloning Morsey repo..."
+	$(Q) git clone --depth=1 --branch=$(MORSEY_VERSION) https://github.com/linguini1/morsey.git
+	$(Q) touch $(MORSEY_DIR)
+	$(Q) echo "Checking Morsey hashes..."
+	$(Q) $(APPDIR)/tools/check-hash.sh sha256 $(MORSEY_MORSEY_H_SHA256) $@/morsey.h
+	$(Q) $(APPDIR)/tools/check-hash.sh sha256 $(MORSEY_MORSEY_C_SHA256) $@/morsey.c
+
+create_includes: $(MORSEY_DIR)/morsey.h
+	$(Q) cp $< $(APPDIR)/include/audioutils
+
+context:: $(MORSEY_DIR)
+	$(Q) $(MAKE) create_includes
+
+distclean::
+	$(call DELFILE, $(APPDIR)/include/audioutils/morsey.h)
+	$(call DELDIR, morsey)
 
 include $(APPDIR)/Application.mk

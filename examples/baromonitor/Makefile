@@ -1,5 +1,5 @@
 ############################################################################
-# apps/fsutils/passwd/Makefile
+# apps/examples/baromonitor/Makefile
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -22,15 +22,15 @@
 
 include $(APPDIR)/Make.defs
 
-# Password file access library
+# BAROMONITOR Barometer sensor example built-in application info
 
-ifeq ($(CONFIG_FSUTILS_PASSWD),y)
-CSRCS += passwd_verify.c passwd_find.c passwd_encrypt.c
-CSRCS += passwd_pbkdf2.c
-ifneq ($(CONFIG_FSUTILS_PASSWD_READONLY),y)
-CSRCS += passwd_adduser.c passwd_deluser.c passwd_update.c passwd_append.c
-CSRCS += passwd_delete.c passwd_lock.c
-endif
-endif
+PROGNAME = $(CONFIG_EXAMPLES_BAROMONITOR_PROGNAME)
+PRIORITY = $(CONFIG_EXAMPLES_BAROMONITOR_PRIORITY)
+STACKSIZE = $(CONFIG_EXAMPLES_BAROMONITOR_STACKSIZE)
+MODULE = $(CONFIG_EXAMPLES_BAROMONITOR)
+
+# BAROMONITOR Barometer sensor example
+
+MAINSRC = baromonitor_main.c
 
 include $(APPDIR)/Application.mk
